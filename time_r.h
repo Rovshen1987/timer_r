@@ -35,6 +35,15 @@ class time_r
 			short int* error_view_length;
 			short int* error_view_dot;
 
+			//------------const--------------
+			const short int hour_l_sh   = 2;
+			const short int hour_l_l    = 3;
+			const short int minut_l     = 2;
+			const short int second_l    = 3;
+			//------------------------------
+
+			short int get_how_length(bool long_hour);
+			short int get_how_colon();
 
 		 bool error_view(std::string& time);
          void push_doc();

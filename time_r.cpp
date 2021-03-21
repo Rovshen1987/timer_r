@@ -102,4 +102,75 @@ void time_r::push_doc()
 
 };
 
+short int time_r::get_how_length(bool long_hour)  //this function for the set
+{
+  short int result = 0;
 
+  if (visable_hour)
+  {
+	if (long_hour)
+	{
+	 result += this->hour_l_l;
+	} else
+	{
+	 result += this->hour_l_sh;
+	};
+  };
+
+
+  if (visable_minut)
+  {
+	 result += this->minut_l;
+  };
+
+  if (visable_second)
+  {
+	 result += this->second_l;
+  };
+
+  return result;
+};
+
+short int time_r::get_how_colon() //this function for the set
+{
+  short int result = 0;
+
+  if (visable_hour)
+  {
+	 result++;
+  };
+
+
+  if (visable_minut)
+  {
+	 result++;
+  };
+
+  if (visable_second)
+  {
+	 result++;
+  };
+
+switch(result)
+{
+
+case 2: {
+		 return 1;
+		 break;
+		};
+
+case 3: {
+		 return 2;
+		 break;
+		};
+
+default: {
+		  return 0;
+		  break;
+         };
+
+
+  return result;
+};
+
+};
