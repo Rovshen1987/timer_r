@@ -25,7 +25,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
      p.get_visable();
 
-
+       int a;
 
 	std::system("pause");
 	return 0;

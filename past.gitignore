@@ -6,10 +6,10 @@
 *.ils
 *.map
 *.tds
-/__astcache
-/__history
-/__recovery
-/Win32
+/__astcache/**
+/__history/**
+/__recovery/**
+/Win32/**
 
 # Compiled Object files
 *.slo

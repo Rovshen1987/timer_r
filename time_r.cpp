@@ -1,6 +1,7 @@
 
 #include "time_r.h"
 
+
  time_r::time_r():hour(0), minut(0), second(0), visable_hour(true), visable_minut(true),
 				   visable_second(true), format_hour_12(false)
 				   {
