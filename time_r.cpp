@@ -5,8 +5,7 @@
  time_r::time_r():hour(0), minut(0), second(0), visable_hour(true), visable_minut(true),
 				   visable_second(true), format_hour_12(false)
 				   {
-					 this->error_view_length = new short int{0};
-					 this->error_view_dot = new short int{0};
+
 				   };
 
  time_r::~time_r()
@@ -15,34 +14,71 @@
    this->minut  = 0;
    this->second = 0;
 
-
-  delete this->error_view_length;
-  delete this->error_view_dot;
-
-
  };
 
  bool time_r::error_view(std::string& time)
  {
-	int result = 0;
-	int length = time.length();
+	bool length = false;
+	bool colon  = false;
 
-	  for (char i: time)
-	  {
-		if (i == ':')
-		result++;
+	 if (time.length() == absolut_length_short)
+	 {
+	 length = this->error_view_leng(time, absolut_length_short);
+	 } else
+	 if (time.length() == absolut_length_long)
+	 {
+	 length = this->error_view_leng(time, absolut_length_long);
+	 } else
+	 {
+	  length = false;
+	 };
 
+	 colon =   this->error_view_colon(time);
 
-	  };
-
-	  if ((result==2) && (length == 8))
+	   if ((length == true) && (colon == true))
 	  {
 	   return true;
+
 	  } else
 	  {
-       return false;
-	  }
+	   return false;
+	  };
+
  };
+
+bool time_r::error_view_leng(std::string& time, short int hour_s_l)
+{
+
+	 if (time.length()==hour_s_l)
+	 {
+	   return true;
+	 } else
+	 {
+	   return false;
+	 };
+};
+
+bool time_r::error_view_colon(std::string& time)
+{
+   short int result = 0;
+
+  for (int i = 0; i <= time.length(); i++)
+  {
+	 if (time[i]==':')
+	 {
+	   result ++;
+	 }
+  };
+
+
+  if (result == get_how_colon())
+  {
+	return true;
+  } else
+  {
+    return false;
+  }
+};
 
 
 void time_r::get_visable()
@@ -81,26 +117,6 @@ void time_r::run()
 };
 
 
-void time_r::push_doc()
-{
-	if (this->visable_hour)
-	{
-	  *this->error_view_length = 2;
-	  *this->error_view_dot = 1;
-	};
-
-		if (this->visable_minut)
-	{
-	  *this->error_view_length = *this->error_view_length+2;
-	};
-
-			if (this->visable_second)
-	{
-	  *this->error_view_length = *this->error_view_length+3;
-	  *this->error_view_dot   = *this->error_view_dot+1;
-	};
-
-};
 
 short int time_r::get_how_length(bool long_hour)  //this function for the set
 {
@@ -135,21 +151,22 @@ short int time_r::get_how_colon() //this function for the set
 {
   short int result = 0;
 
-  if (visable_hour)
+  if (this->visable_hour)
   {
 	 result++;
   };
 
 
-  if (visable_minut)
+  if (this->visable_minut)
   {
 	 result++;
   };
 
-  if (visable_second)
+  if (this->visable_second)
   {
 	 result++;
   };
+
 
 switch(result)
 {
@@ -169,8 +186,131 @@ default: {
 		  break;
          };
 
-
-  return result;
 };
 
+};
+
+
+void time_r::manual_time_setting(std::string& _text)
+{
+//	const short int part_short = this->absolut_length_short;
+//	const short int part_long = this->absolut_length_long;
+//
+//   switch(_text.length())
+//   {
+//   part_short: {
+//				this->automatics_time_setting(_text, true);
+//				break;
+//			   };
+//
+//   part_long: {
+//				this->automatics_time_setting(_text, false);
+//				break;
+//			   };
+//   };
+
+	   if (_text.length() == this->absolut_length_short)
+	   {
+		this->automatics_time_setting(_text, true);
+	   } else
+		 if (_text.length() == this->absolut_length_long)
+		 {
+		  this->automatics_time_setting(_text, false);
+		 } else
+		 {
+         this->set_this_null();
+		 }
+
+
+};
+
+void time_r::automatics_time_setting(std::string& _text, bool&& hour_short)
+{
+ short int hour_m = 0;
+ short int minut_m = this->minut_l;
+ short int second_m = this->second_l;
+
+ if (hour_short)
+ {
+  hour_m = this->hour_l_sh;
+ } else
+ {
+  hour_m = this->hour_l_l;
+ };
+
+
+ hour_m--;
+
+  { //hour
+	std::string temp = "";
+
+   for (int i = 0; i < hour_m; i++)
+   {
+	 temp = temp + _text[i];
+   };
+	 this->hour = std::stoi(temp);
+   }
+
+
+  { //minut
+	std::string temp = "";
+
+   for (int i = (hour_m+1); i < ((hour_m+1)+minut_m); i++)
+   {
+	 temp = temp + _text[i];
+   };
+	 this->minut = std::stoi(temp);
+   }
+
+  { //second
+	std::string temp = "";
+
+   for (int i = ((hour_m+1)+(minut_m+1)); i < ((hour_m+1)+(minut_m+second_m)); i++)
+   {
+	 temp = temp + _text[i];
+
+   };
+	 this->second = std::stoi(temp);
+   }
+};
+
+
+int time_r::get_hour()
+{
+   return this->hour;
+};
+
+int time_r::get_minut()
+{
+   return this->minut;
+};
+
+int time_r::get_second()
+{
+   return this->second;
+};
+
+void time_r::set_this_null()
+{
+	this->hour = 0;
+	this->minut = 0;
+	this->second = 0;
+};
+
+void time_r::correct_time()
+{
+	  if (this->hour > 24)
+	  {
+		this->hour = 24;
+	  };
+
+	  if (this->minut > 59)
+	  {
+		this->minut = 59;
+	  };
+
+	  if (this->second > 59)
+	  {
+		this->second = 59;
+	  };
 };

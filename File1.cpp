@@ -16,14 +16,11 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 
 	 time_r p;
+	 p.set<std::string>("31:79:83");
 
-	for (int i = 0; i < 9; i++)
-	{
-	 p.run();
-	}
-
-
-     p.get_visable();
+	 std::cout << p.get_hour() <<
+			   " \n"<< p.get_minut() <<
+               " \n"<< p.get_second() << std::endl;
 
 
 
