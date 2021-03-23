@@ -2,7 +2,7 @@
 #include "time_r.h"
 
 
- time_r::time_r():hour(0), minut(0), second(0), visable_hour(true), visable_minut(true),
+ time_r::time_r():day(0), hour(0), minut(0), second(0), visable_hour(true), visable_minut(true),
 				   visable_second(true), format_hour_12(false)
 				   {
 
@@ -98,6 +98,7 @@ void time_r::run()
 	  this->second = 0;
 	  this->minut  = 0;
 	  this->hour   = 0;
+      this->day++;
 	 }
 
 	 if ((this->second>59) && (this->minut==59) && (this->hour<24))
@@ -314,3 +315,10 @@ void time_r::correct_time()
 		this->second = 59;
 	  };
 };
+
+
+int time_r::get_day()
+{
+   return this->day;
+};
+

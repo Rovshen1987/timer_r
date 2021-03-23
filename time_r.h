@@ -11,7 +11,7 @@ class time_r
 			short int hour;
 			short int minut;
 			short int second;
-
+            short int day;
 
   public:
 
@@ -45,6 +45,7 @@ class time_r
 		int get_hour();
 		int get_minut();
 		int get_second();
+        int get_day();
 
 		void get_visable();
 		void run();
