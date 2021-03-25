@@ -50,6 +50,9 @@ class time_r
 		void get_visable();
 		void run();
 
+		void forward();
+		void back();
+
 
 
 
@@ -59,6 +62,8 @@ class time_r
 			bool visable_minut;
 			bool visable_second;
 			bool format_hour_12;
+
+
 
 
 

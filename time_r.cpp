@@ -194,21 +194,6 @@ default: {
 
 void time_r::manual_time_setting(std::string& _text)
 {
-//	const short int part_short = this->absolut_length_short;
-//	const short int part_long = this->absolut_length_long;
-//
-//   switch(_text.length())
-//   {
-//   part_short: {
-//				this->automatics_time_setting(_text, true);
-//				break;
-//			   };
-//
-//   part_long: {
-//				this->automatics_time_setting(_text, false);
-//				break;
-//			   };
-//   };
 
 	   if (_text.length() == this->absolut_length_short)
 	   {
@@ -221,7 +206,6 @@ void time_r::manual_time_setting(std::string& _text)
 		 {
          this->set_this_null();
 		 }
-
 
 };
 
@@ -322,3 +306,45 @@ int time_r::get_day()
    return this->day;
 };
 
+
+void time_r::forward()
+{
+   if ((this->hour == 24) && (this->minut == 59) && (this->second > 59) )
+   {
+	 this->day++;
+	 this->set_this_null();
+
+   };
+
+   if ((this->hour < 24) && (this->minut == 59) && (this->second > 59) )
+   {
+	 this->hour++;
+	 this->minut  = 0;
+	 this->second = 0;
+   };
+
+   if ((this->hour < 24) && (this->minut < 59) && (this->second > 59) )
+   {
+	 this->minut++;
+	 this->second = 0;
+   };
+
+};
+
+void time_r::back()
+{
+   if ((this->hour > 0) && (this->minut <= 0) && (this->second < 0) )
+   {
+	 this->hour--;
+	 this->minut =  59;
+	 this->second = 59;
+
+   };
+
+   if ((this->hour > 0) && (this->minut > 0) && (this->second < 0) )
+   {
+	 this->minut--;
+	 this->second = 59;
+   };
+
+};
