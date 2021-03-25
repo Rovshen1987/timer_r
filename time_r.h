@@ -15,8 +15,7 @@ class time_r
 
   public:
 
-
-		time_r();
+  		time_r();
 		~time_r();
 
 		template <class T>
@@ -41,11 +40,37 @@ class time_r
          this->correct_time();
 		};
 
+		template<class T>
+		T get_time()
+		{
+           this->run();
+		  T result;
+
+		  if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == true))
+		  {
+		   result = std::to_string(this->hour)+":"+std::to_string(this->minut)+":"+std::to_string(this->second);
+		   return result;
+		  };
+
+		  if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == false))
+		  {
+		   result = std::to_string(this->hour)+":"+std::to_string(this->minut);
+		   return result;
+		  };
+
+		  if ((this->visable_hour == false) && (this->visable_minut == true) && (this->visable_second == true))
+		  {
+		   result = std::to_string(this->minut)+":"+std::to_string(this->second);
+		   return result;
+		  };
+
+		};
+
 
 		int get_hour();
 		int get_minut();
 		int get_second();
-        int get_day();
+		int get_day();
 
 		void get_visable();
 		void run();
@@ -53,9 +78,7 @@ class time_r
 		void forward();
 		void back();
 
-
-
-
+		void set_forward(bool&& forward_or_back);
 
   private:
 			bool visable_hour;
@@ -63,9 +86,7 @@ class time_r
 			bool visable_second;
 			bool format_hour_12;
 
-
-
-
+			bool forward_b;
 
 			//------------const--------------
 			const short int hour_l_sh               = 2;
@@ -73,7 +94,7 @@ class time_r
 			const short int minut_l                 = 2;
 			const short int second_l                = 3;
 			const short int absolut_length_short    = 7;
-            const short int absolut_length_long     = 8;
+			const short int absolut_length_long     = 8;
 			//------------------------------
 
 			short int get_how_length(bool long_hour);
@@ -83,7 +104,7 @@ class time_r
 		 bool error_view(std::string& time);
 		 bool error_view_leng(std::string& time, short int hour_s_l);
 		 bool error_view_colon(std::string& time);
-
+         bool plug_the_null();
 
 		 void manual_time_setting(std::string& _text);
 		 void automatics_time_setting(std::string& _text, bool&& hour_short);

@@ -16,17 +16,23 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 
 	 time_r p;
-	 p.set<std::string>("31:79:83");
+	 p.set<std::string>("0:1:15");
+    // p.set_forward(false);
 
-	 for (int i = 0; i < 100; i++)
+	 std::string s;
+ for (int i = 0; i < 100; i++)
 	 {
-        p.run();
+	   s = p.get_time<std::string>();
+
+		std::cout << s << std::endl;
 	 }
 
 	 std::cout << p.get_hour() <<
 			   " \n"<< p.get_minut() <<
 			   " \n"<< p.get_second() <<
 			   " \n"<<p.get_day() << std::endl;
+
+
 
 
 

@@ -3,7 +3,7 @@
 
 
  time_r::time_r():day(0), hour(0), minut(0), second(0), visable_hour(true), visable_minut(true),
-				   visable_second(true), format_hour_12(false)
+				   visable_second(true), format_hour_12(false), forward_b(true)
 				   {
 
 				   };
@@ -93,28 +93,42 @@ void time_r::get_visable()
 
 void time_r::run()
 {
-	 if ((this->second>59) && (this->minut==59) && (this->hour==24))
-	 {
-	  this->second = 0;
-	  this->minut  = 0;
-	  this->hour   = 0;
-      this->day++;
-	 }
+//	 if ((this->second>59) && (this->minut==59) && (this->hour==24))
+//	 {
+//	  this->second = 0;
+//	  this->minut  = 0;
+//	  this->hour   = 0;
+//      this->day++;
+//	 }
+//
+//	 if ((this->second>59) && (this->minut==59) && (this->hour<24))
+//	 {
+//	  this->second = 0;
+//	  this->minut  = 0;
+//	  this->hour++;
+//	 }
+//
+//	 if ((this->second>59) && (this->minut<59) && (this->hour<24))
+//	 {
+//	  this->second = 0;
+//	  this->minut++;
+//	 }
+//
+//     this->second++;
 
-	 if ((this->second>59) && (this->minut==59) && (this->hour<24))
+   if (this->forward_b)
+   {
+	 this->second++;
+	 this->forward();
+   } else
+   {
+	 if (this->plug_the_null())
 	 {
-	  this->second = 0;
-	  this->minut  = 0;
-	  this->hour++;
-	 }
+	 this->second--;
+	 this->back();
+	 };
 
-	 if ((this->second>59) && (this->minut<59) && (this->hour<24))
-	 {
-	  this->second = 0;
-	  this->minut++;
-	 }
-
-     this->second++;
+   };
 };
 
 
@@ -333,6 +347,7 @@ void time_r::forward()
 
 void time_r::back()
 {
+
    if ((this->hour > 0) && (this->minut <= 0) && (this->second < 0) )
    {
 	 this->hour--;
@@ -347,4 +362,21 @@ void time_r::back()
 	 this->second = 59;
    };
 
+};
+
+void time_r::set_forward(bool&& forward_or_back)
+{
+	this->forward_b = forward_or_back;
+};
+
+bool time_r::plug_the_null()
+{
+  	  if ((this->hour <= 0) && (this->minut <= 0) && (this->second < 0) )
+	  {
+        this->second = 0;
+		return false;
+	  } else
+	  {
+		return true;
+	  };
 };
