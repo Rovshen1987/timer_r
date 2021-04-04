@@ -16,7 +16,7 @@
 
  };
 
- bool time_r::error_view(std::string& time)
+ bool time_r::error_view(string& time)
  {
 	bool length = false;
 	bool colon  = false;
@@ -46,7 +46,7 @@
 
  };
 
-bool time_r::error_view_leng(std::string& time, short int hour_s_l)
+bool time_r::error_view_leng(string& time, short int hour_s_l)
 {
 
 	 if (time.length()==hour_s_l)
@@ -58,7 +58,7 @@ bool time_r::error_view_leng(std::string& time, short int hour_s_l)
 	 };
 };
 
-bool time_r::error_view_colon(std::string& time)
+bool time_r::error_view_colon(string& time)
 {
    short int result = 0;
 
@@ -83,38 +83,13 @@ bool time_r::error_view_colon(std::string& time)
 
 void time_r::get_visable()
 {
-	 std::cout << std::boolalpha<< "hour = " << (this->visable_hour)
-	 <<";\n minut = " << this->visable_minut << ";\n second = " <<this->visable_second << "; \n";
-	 std::string s;
-	 s = this->get_null<std::string>(this->second);
-	 std::cout << s << std::endl;
+	 std::cout << std::boolalpha<< "hour   = " << (this->visable_hour)
+	 <<";\nminut  = " << this->visable_minut << ";\nsecond = " <<this->visable_second << "; \n";
 };
 
 
 void time_r::run()
 {
-//	 if ((this->second>59) && (this->minut==59) && (this->hour==24))
-//	 {
-//	  this->second = 0;
-//	  this->minut  = 0;
-//	  this->hour   = 0;
-//      this->day++;
-//	 }
-//
-//	 if ((this->second>59) && (this->minut==59) && (this->hour<24))
-//	 {
-//	  this->second = 0;
-//	  this->minut  = 0;
-//	  this->hour++;
-//	 }
-//
-//	 if ((this->second>59) && (this->minut<59) && (this->hour<24))
-//	 {
-//	  this->second = 0;
-//	  this->minut++;
-//	 }
-//
-//     this->second++;
 
    if (this->forward_b)
    {
@@ -206,7 +181,7 @@ default: {
 };
 
 
-void time_r::manual_time_setting(std::string& _text)
+void time_r::manual_time_setting(string& _text)
 {
 
 	   if (_text.length() == this->absolut_length_short)
@@ -223,7 +198,7 @@ void time_r::manual_time_setting(std::string& _text)
 
 };
 
-void time_r::automatics_time_setting(std::string& _text, bool&& hour_short)
+void time_r::automatics_time_setting(string& _text, bool&& hour_short)
 {
  short int hour_m = 0;
  short int minut_m = this->minut_l;
@@ -241,7 +216,7 @@ void time_r::automatics_time_setting(std::string& _text, bool&& hour_short)
  hour_m--;
 
   { //hour
-	std::string temp = "";
+	string temp = "";
 
    for (int i = 0; i < hour_m; i++)
    {
@@ -252,7 +227,7 @@ void time_r::automatics_time_setting(std::string& _text, bool&& hour_short)
 
 
   { //minut
-	std::string temp = "";
+	string temp = "";
 
    for (int i = (hour_m+1); i < ((hour_m+1)+minut_m); i++)
    {
@@ -262,7 +237,7 @@ void time_r::automatics_time_setting(std::string& _text, bool&& hour_short)
    }
 
   { //second
-	std::string temp = "";
+	string temp = "";
 
    for (int i = ((hour_m+1)+(minut_m+1)); i < ((hour_m+1)+(minut_m+second_m)); i++)
    {
@@ -371,7 +346,7 @@ void time_r::set_forward(bool&& forward_or_back)
 
 bool time_r::plug_the_null()
 {
-  	  if ((this->hour <= 0) && (this->minut <= 0) && (this->second < 0) )
+  	  if ((this->hour <= 0) && (this->minut <= 0) && (this->second <= 0) )
 	  {
         this->second = 0;
 		return false;
@@ -380,3 +355,47 @@ bool time_r::plug_the_null()
 		return true;
 	  };
 };
+
+
+string time_r::create_null_text(const short int watch)
+{
+  string result;
+  if ((watch >= 0) && (watch < 10))
+  {
+  result = "0";
+
+  };
+
+  result = result + std::to_string(watch);
+
+  return result;
+}
+
+
+ string time_r::get_time()
+{
+ this->run();
+ string result;
+
+ if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == true))
+ {
+ result = std::to_string(this->hour)+":"+create_null_text(this->minut)+
+		":"+create_null_text(this->second);
+ return result;
+ };
+
+ if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == false))
+ {
+ result = create_null_text(this->hour)+":"+create_null_text(this->minut);
+ return result;
+ };
+
+ if ((this->visable_hour == false) && (this->visable_minut == true) && (this->visable_second == true))
+ {
+ result = create_null_text(this->minut)+":"+create_null_text(this->second);
+ return result;
+ };
+
+ return result;
+
+ };

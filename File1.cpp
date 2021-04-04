@@ -17,12 +17,13 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	 time_r p;
 	 p.set<std::string>("0:1:15");
-    // p.set_forward(false);
+	 p.set_forward(false);
+     p.get_visable();
 
 	 std::string s;
  for (int i = 0; i < 100; i++)
 	 {
-	   s = p.get_time<std::string>();
+	   s = p.get_time();
 
 		std::cout << s << std::endl;
 	 }

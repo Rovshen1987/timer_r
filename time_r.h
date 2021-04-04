@@ -2,7 +2,7 @@
 
 #include <string>
 #include <iostream>
-
+using string = std::string;
 
 class time_r
 {
@@ -40,52 +40,10 @@ class time_r
          this->correct_time();
 		};
 
-		template<class T>
-		T create_null_text(const short int watch)
-		{
-		  T result;
-		  if ((watch >= 0) && (watch < 10))
-		  {
-		   result = "0";
-		   //std:: cout << "45 \n";
-		  };
-
-		  result = result + std::to_string(watch);
-
-          return result;
-		}
-
-		template<class T>
-		T get_time()
-		{
-           this->run();
-		  T result;
-
-		  if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == true))
-		  {
-		   result = std::to_string(this->hour)+":"+create_null_text<std::string>(this->minut)+
-					":"+create_null_text<std::string>(this->second);
-		   return result;
-		  };
-
-		  if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == false))
-		  {
-		   result = create_null_text<std::string>(this->hour)+":"+create_null_text<std::string>(this->minut);
-		   return result;
-		  };
-
-		  if ((this->visable_hour == false) && (this->visable_minut == true) && (this->visable_second == true))
-		  {
-		   result = create_null_text<std::string>(this->minut)+":"+create_null_text<std::string>(this->second);
-		   return result;
-		  };
-
-          return result;
-
-		};
 
 
 
+virtual string get_time();
 
 		int get_hour();
 		int get_minut();
@@ -93,7 +51,7 @@ class time_r
 		int get_day();
 
 		void get_visable();
-		void run();
+
 
 		void forward();
 		void back();
@@ -121,35 +79,20 @@ class time_r
 			short int get_how_colon();
 
 
-		 bool error_view(std::string& time);
-		 bool error_view_leng(std::string& time, short int hour_s_l);
-		 bool error_view_colon(std::string& time);
+		 bool error_view(string& time);
+		 bool error_view_leng(string& time, short int hour_s_l);
+		 bool error_view_colon(string& time);
          bool plug_the_null();
 
-		 void manual_time_setting(std::string& _text);
-		 void automatics_time_setting(std::string& _text, bool&& hour_short);
+		 void manual_time_setting(string& _text);
+		 void automatics_time_setting(string& _text, bool&& hour_short);
 
 		 void set_this_null();
          void correct_time();
+		 string create_null_text(const short int watch);
+		 void run();
 
 
-		 template<typename T>
-		 T get_null(short int& item)
-		 {
-
-		   T result;
-		   if (item < 10)
-		   {
-			result = "0"+std::to_string(item);
-		   } else
-		   {
-			result = std::to_string(item);
-		   };
-
-
-		   return result;
-
-		 };
 
 
 };
