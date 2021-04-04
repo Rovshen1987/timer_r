@@ -13,4 +13,10 @@
     <Transaction>1899.12.30 00:00:00.000.538,D:\workshop\consol\time_r\Project1PCH1.h=C:\Users\Rovshen\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.064,D:\workshop\consol\time_r\Project1.cbproj=C:\Users\Rovshen\Documents\Embarcadero\Studio\Projects\Project1.cbproj</Transaction>
   </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="File1.cpp"/>
+    <File Path="Project1PCH1.h"/>
+    <File Path="time_r.cpp"/>
+    <File Path="time_r.h"/>
+  </ProjectSortOrder>
 </BorlandProject>

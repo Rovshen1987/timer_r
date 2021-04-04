@@ -41,6 +41,21 @@ class time_r
 		};
 
 		template<class T>
+		T create_null_text(const short int watch)
+		{
+		  T result;
+		  if ((watch >= 0) && (watch < 10))
+		  {
+		   result = "0";
+		   //std:: cout << "45 \n";
+		  };
+
+		  result = result + std::to_string(watch);
+
+          return result;
+		}
+
+		template<class T>
 		T get_time()
 		{
            this->run();
@@ -48,23 +63,28 @@ class time_r
 
 		  if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == true))
 		  {
-		   result = std::to_string(this->hour)+":"+std::to_string(this->minut)+":"+std::to_string(this->second);
+		   result = std::to_string(this->hour)+":"+create_null_text<std::string>(this->minut)+
+					":"+create_null_text<std::string>(this->second);
 		   return result;
 		  };
 
 		  if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == false))
 		  {
-		   result = std::to_string(this->hour)+":"+std::to_string(this->minut);
+		   result = create_null_text<std::string>(this->hour)+":"+create_null_text<std::string>(this->minut);
 		   return result;
 		  };
 
 		  if ((this->visable_hour == false) && (this->visable_minut == true) && (this->visable_second == true))
 		  {
-		   result = std::to_string(this->minut)+":"+std::to_string(this->second);
+		   result = create_null_text<std::string>(this->minut)+":"+create_null_text<std::string>(this->second);
 		   return result;
 		  };
 
+          return result;
+
 		};
+
+
 
 
 		int get_hour();
