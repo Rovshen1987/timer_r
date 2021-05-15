@@ -29,7 +29,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	 }
 
 	 std::cout << p.get_hour() <<
-			   " \n"<< p.get_minut() <<
+   //			   " \n"<< p.get_minut() <<
 			   " \n"<< p.get_second() <<
 			   " \n"<<p.get_day() << std::endl;
 
