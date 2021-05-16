@@ -14,6 +14,7 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+    int a = 10;
 
 	 time_r p;
 	 p.set<std::string>("0:1:15");
