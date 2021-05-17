@@ -6,6 +6,7 @@
 *.ils
 *.map
 *.tds
+*.cbproj.local
 /__astcache/**
 /__history/**
 /__recovery/**
