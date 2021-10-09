@@ -1,51 +1,172 @@
 
 #include "time_r.h"
 
-
- time_r::time_r():day(0), hour(0), minut(0), second(0), visable_hour(true), visable_minut(true),
-				   visable_second(true), format_hour_12(false), forward_b(true)
+//--------------------------------CONSTRUCTOR-------------------------------
+time_r::time_r():day(0), hour(0), minut(0), second(0), visable_hour(true), visable_minut(true),
+				   visable_second(true), format_hour_12(false), forward_b(true), Active_info(false)
 				   {
 
 				   };
 
- time_r::~time_r()
- {
+//--------------------------------DESTRUCTOR------------------------------------
+time_r::~time_r()
+{
    this->hour   = 0;
    this->minut  = 0;
    this->second = 0;
 
- };
+};
 
- bool time_r::error_view(string& time)
+//---------------------------------PUBLIC_SECTION-------------------------------
+//------------------------------------------------------------------------------
+
+void time_r::set_visable(const bool& visable_hour, const bool& visable_minut, const bool& visable_second)
+{
+   this->visable_hour = visable_hour;
+   this->visable_minut = visable_minut;
+   this->visable_second = visable_second;
+};
+
+//------------------------------------------------------------------------------
+void time_r::set(const string& _text)
+{
+ string temp_text = _text;
+
+ if (this->error_view(temp_text))
+  {
+	this->manual_time_setting(temp_text);
+  } else
+  {
+	this->set_this_null();
+  };
+
+	this->correct_time();
+};
+
+//------------------------------------------------------------------------------
+void time_r::set_forward(bool&& forward_or_back)
+{
+	this->forward_b = forward_or_back;
+};
+
+//------------------------------------------------------------------------------
+ string time_r::get_time()
+{
+ this->run();
+ string result;
+
+ if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == true))
  {
-	bool length = false;
-	bool colon  = false;
+ result = std::to_string(this->hour)+":"+create_null_text(this->minut)+
+		":"+create_null_text(this->second);
+ return result;
+ };
 
-	 if (time.length() == absolut_length_short)
-	 {
-	 length = this->error_view_leng(time, absolut_length_short);
-	 } else
-	 if (time.length() == absolut_length_long)
-	 {
-	 length = this->error_view_leng(time, absolut_length_long);
-	 } else
-	 {
-	  length = false;
-	 };
+ if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == false))
+ {
+ result = create_null_text(this->hour)+":"+create_null_text(this->minut);
+ return result;
+ };
 
-	 colon =   this->error_view_colon(time);
+ if ((this->visable_hour == false) && (this->visable_minut == true) && (this->visable_second == true))
+ {
+ result = create_null_text(this->minut)+":"+create_null_text(this->second);
+ return result;
+ };
 
-	   if ((length == true) && (colon == true))
-	  {
-	   return true;
-
-	  } else
-	  {
-	   return false;
-	  };
+ return result;
 
  };
 
+//------------------------------------------------------------------------------
+int time_r::get_hour()
+{
+   return this->hour;
+};
+
+//------------------------------------------------------------------------------
+int time_r::get_minut()
+{
+   return this->minut;
+};
+
+//------------------------------------------------------------------------------
+int time_r::get_second()
+{
+   return this->second;
+};
+
+//------------------------------------------------------------------------------
+int time_r::get_day()
+{
+   return this->day;
+};
+
+//------------------------------------------------------------------------------
+void time_r::get_visable()
+{
+	 std::cout << std::boolalpha<< "hour   = " << (this->visable_hour)
+	 <<";\nminut  = " << this->visable_minut << ";\nsecond = " <<this->visable_second << "; \n";
+};
+
+//------------------------------------------------------------------------------
+void time_r::forward()
+{
+   if ((this->hour == 24) && (this->minut == 59) && (this->second > 59) )
+   {
+	 this->day++;
+	 this->set_this_null();
+
+   };
+
+   if ((this->hour < 24) && (this->minut == 59) && (this->second > 59) )
+   {
+	 this->hour++;
+	 this->minut  = 0;
+	 this->second = 0;
+   };
+
+   if ((this->hour < 24) && (this->minut < 59) && (this->second > 59) )
+   {
+	 this->minut++;
+	 this->second = 0;
+   };
+
+};
+
+//------------------------------------------------------------------------------
+void time_r::back()
+{
+
+   if ((this->hour > 0) && (this->minut <= 0) && (this->second < 0) )
+   {
+	 this->hour--;
+	 this->minut =  59;
+	 this->second = 59;
+
+   };
+
+   if ((this->hour > 0) && (this->minut > 0) && (this->second < 0) )
+   {
+	 this->minut--;
+	 this->second = 59;
+   };
+
+   if ((this->hour >= 0) && (this->minut > 0) && (this->second < 0) )
+   {
+	 this->minut--;
+	 this->second = 59;
+   };
+};
+
+//------------------------------------------------------------------------------
+bool time_r::get_Active_info()
+{
+ return this->Active_info;
+};
+
+//---------------------------PRIVATE_SECTION-----------------------------------
+//------------------------------------------------------------------------------
 bool time_r::error_view_leng(string& time, short int hour_s_l)
 {
 
@@ -58,6 +179,7 @@ bool time_r::error_view_leng(string& time, short int hour_s_l)
 	 };
 };
 
+//------------------------------------------------------------------------------
 bool time_r::error_view_colon(string& time)
 {
    short int result = 0;
@@ -81,33 +203,31 @@ bool time_r::error_view_colon(string& time)
 };
 
 
-void time_r::get_visable()
-{
-	 std::cout << std::boolalpha<< "hour   = " << (this->visable_hour)
-	 <<";\nminut  = " << this->visable_minut << ";\nsecond = " <<this->visable_second << "; \n";
-};
-
-
+//------------------------------------------------------------------------------
 void time_r::run()
 {
 
-   if (this->forward_b)
+   if (this->forward_b == true)
    {
 	 this->second++;
 	 this->forward();
+	 this->Active_info = true;
    } else
    {
-	 if (this->plug_the_null())
+	 if (this->plug_the_null() == true)
 	 {
 	 this->second--;
 	 this->back();
+	 }
+	 else
+	 {
+	  this->Active_info = false;
 	 };
 
    };
 };
 
-
-
+//------------------------------------------------------------------------------
 short int time_r::get_how_length(bool long_hour)  //this function for the set
 {
   short int result = 0;
@@ -137,6 +257,7 @@ short int time_r::get_how_length(bool long_hour)  //this function for the set
   return result;
 };
 
+//------------------------------------------------------------------------------
 short int time_r::get_how_colon() //this function for the set
 {
   short int result = 0;
@@ -180,7 +301,7 @@ default: {
 
 };
 
-
+//------------------------------------------------------------------------------
 void time_r::manual_time_setting(string& _text)
 {
 
@@ -198,6 +319,7 @@ void time_r::manual_time_setting(string& _text)
 
 };
 
+//------------------------------------------------------------------------------
 void time_r::automatics_time_setting(string& _text, bool&& hour_short)
 {
  short int hour_m = 0;
@@ -248,22 +370,7 @@ void time_r::automatics_time_setting(string& _text, bool&& hour_short)
    }
 };
 
-
-int time_r::get_hour()
-{
-   return this->hour;
-};
-
-int time_r::get_minut()
-{
-   return this->minut;
-};
-
-int time_r::get_second()
-{
-   return this->second;
-};
-
+//------------------------------------------------------------------------------
 void time_r::set_this_null()
 {
 	this->hour = 0;
@@ -271,6 +378,7 @@ void time_r::set_this_null()
 	this->second = 0;
 };
 
+//------------------------------------------------------------------------------
 void time_r::correct_time()
 {
 	  if (this->hour > 24)
@@ -289,61 +397,7 @@ void time_r::correct_time()
 	  };
 };
 
-
-int time_r::get_day()
-{
-   return this->day;
-};
-
-
-void time_r::forward()
-{
-   if ((this->hour == 24) && (this->minut == 59) && (this->second > 59) )
-   {
-	 this->day++;
-	 this->set_this_null();
-
-   };
-
-   if ((this->hour < 24) && (this->minut == 59) && (this->second > 59) )
-   {
-	 this->hour++;
-	 this->minut  = 0;
-	 this->second = 0;
-   };
-
-   if ((this->hour < 24) && (this->minut < 59) && (this->second > 59) )
-   {
-	 this->minut++;
-	 this->second = 0;
-   };
-
-};
-
-void time_r::back()
-{
-
-   if ((this->hour > 0) && (this->minut <= 0) && (this->second < 0) )
-   {
-	 this->hour--;
-	 this->minut =  59;
-	 this->second = 59;
-
-   };
-
-   if ((this->hour > 0) && (this->minut > 0) && (this->second < 0) )
-   {
-	 this->minut--;
-	 this->second = 59;
-   };
-
-};
-
-void time_r::set_forward(bool&& forward_or_back)
-{
-	this->forward_b = forward_or_back;
-};
-
+//------------------------------------------------------------------------------
 bool time_r::plug_the_null()
 {
   	  if ((this->hour <= 0) && (this->minut <= 0) && (this->second <= 0) )
@@ -356,7 +410,7 @@ bool time_r::plug_the_null()
 	  };
 };
 
-
+//------------------------------------------------------------------------------
 string time_r::create_null_text(const short int watch)
 {
   string result;
@@ -371,31 +425,33 @@ string time_r::create_null_text(const short int watch)
   return result;
 }
 
-
- string time_r::get_time()
+ //------------------------------------------------------------------------------
+bool time_r::error_view(string& time)
 {
- this->run();
- string result;
+	bool length = false;
+	bool colon  = false;
 
- if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == true))
- {
- result = std::to_string(this->hour)+":"+create_null_text(this->minut)+
-		":"+create_null_text(this->second);
- return result;
- };
+	 if (time.length() == absolut_length_short)
+	 {
+	 length = this->error_view_leng(time, absolut_length_short);
+	 } else
+	 if (time.length() == absolut_length_long)
+	 {
+	 length = this->error_view_leng(time, absolut_length_long);
+	 } else
+	 {
+	  length = false;
+	 };
 
- if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == false))
- {
- result = create_null_text(this->hour)+":"+create_null_text(this->minut);
- return result;
- };
+	 colon =   this->error_view_colon(time);
 
- if ((this->visable_hour == false) && (this->visable_minut == true) && (this->visable_second == true))
- {
- result = create_null_text(this->minut)+":"+create_null_text(this->second);
- return result;
- };
+	   if ((length == true) && (colon == true))
+	  {
+	   return true;
 
- return result;
+	  } else
+	  {
+	   return false;
+	  };
 
- };
+};
